@@ -75,7 +75,7 @@ const Register = () => {
             <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center mt-4">
               Register
             </button>
-            <p className="text-red text-[16px] mt-4">{error && error}</p>
+            <p className=" text-red-600 text-[16px] mt-4">{error && error}</p>
           </form>
           <div className="text-center py-4">-OR-</div>
             <Link href="/login" className="text-center">Login with an expisting account</Link>
