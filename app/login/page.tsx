@@ -79,6 +79,7 @@ const Login = ()=> {
           </button>
           <p className=" text-red-600 text-[16px] mt-4">{error && error}</p>
         </form>
+       
         <div className="text-center py-4">-OR-</div>
           <Link href="/register" className="text-center">New User Register here!</Link>
       </div>
