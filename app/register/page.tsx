@@ -1,8 +1,9 @@
 "use client";
-
+import React from "react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const isValidEmail = (email: string) => {
     const emailRegex =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -11,6 +12,14 @@ const isValidEmail = (email: string) => {
 const Register = () => {
     const [error, setError] = useState("");
     const router = useRouter();
+
+    const {data: session, status: sessionStatus}= useSession();
+
+    useEffect(() => {
+       if(sessionStatus === "authenticated" && router){
+          router.replace("/dashboard");
+       }
+    },[sessionStatus, router])
 
     const handleSubmit = async  (e:any) => {
         e.preventDefault();
@@ -51,8 +60,12 @@ const Register = () => {
         }
     }
 
+    if(sessionStatus === 'loading'){
+      return <h1>Loading.....</h1>;
+    }
+
     return (
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      sessionStatus !== 'authenticated' && <div className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="bg-[#212121] p-8 rounded shadow-md w-96">
           <h1 className="text-center font-bold text-[25px]">Register</h1>
           <form onSubmit={handleSubmit}>

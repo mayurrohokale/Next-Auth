@@ -10,13 +10,15 @@ import { useRouter } from "next/navigation";
 const Login = ()=> {
    // const router = useRouter();
    const [error, setError] = useState("");
-   const session = useSession();
+   // const session = useSession();
    const  router= useRouter();
+   const {data: session, status: sessionStatus}= useSession();
+
    useEffect(() => {
-      if(session?.status === "authenticated" && router){
+      if(sessionStatus === "authenticated" && router){
          router.replace("/dashboard");
       }
-   },[session, router])
+   },[sessionStatus, router])
 
    const isValidEmail = (email: string) => {
       const emailRegex =  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -53,8 +55,12 @@ const Login = ()=> {
       
   }
 
+  if(sessionStatus === "loading"){
+   return <h1>Loading.....</h1>
+  }
+
    return (
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      sessionStatus !== 'authenticated' && <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-[#212121] p-8 rounded shadow-md w-96">
         <h1 className="text-center font-bold text-[25px]">Login</h1>
         <form onSubmit={handleSubmit}>
